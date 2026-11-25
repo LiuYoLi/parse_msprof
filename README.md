@@ -39,6 +39,9 @@ python3 parse_all_ranks.py --force -j 1
 
 # 只跑 rank_5，跳过已解析（并行退化为单任务）
 python3 parse_all_ranks.py --rank 5 --skip-parsed
+
+# 并行8，跳过已经解析的
+python3 parse_all_ranks.py -j 8
 ```
 
 # 📊 行为矩阵（含并行）

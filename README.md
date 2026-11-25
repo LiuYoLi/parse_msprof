@@ -1,6 +1,23 @@
 # parse_msprof
 解析ascend profile文件，支持并发和强制重解析
 
+# 🔍 "已解析"如何判定
+
+脚本按 `DEFAULT_MARKERS` 顺序检查每个 `PROF_*` 目录：
+
+| 标志 | 判定条件 |
+| :--- | :--- |
+| `mindstudio_profiler_output/` | 目录存在**且非空** |
+| `ASCEND_PROFILER_OUTPUT/` | 目录存在**且非空** |
+| `op_statistic.csv` / `kernel_details.csv` / `op_summary.csv` | 文件存在**且大小 > 0** |
+
+任一命中即视为已解析并跳过。**关键是"非空"**——解析中途失败留下的空壳目录不会被误跳过，下次仍会重跑。
+
+如果你的环境输出的标志文件不同，用 `--marker` 追加，例如：
+```bash
+python3 parse_all_ranks.py --marker ascend_pytorch_profiler_0.db
+```
+
 # 🎯 并行 + 强制组合示例
 
 ```bash
